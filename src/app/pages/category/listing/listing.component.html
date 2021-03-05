@@ -1,0 +1,153 @@
+<div class="row">
+  <div class="col-md-12">
+    <nb-card class="inline-form-card">
+      <nb-card-header>Categories</nb-card-header>
+      <nb-card-body style="overflow: inherit !important;;">
+        <div class="tab-content" id="myTabContent">
+
+          <nb-card size="large" style="height:auto !important;">
+            <nb-tabset>
+              <nb-tab tabTitle="Category" style="overflow: inherit;">
+
+                <p-table #dt [value]="category" dataKey="id" styleClass="p-datatable-customers"
+                  [rowHover]="true" [rows]="10" [showCurrentPageReport]="true"
+                  [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+                  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                  [filterDelay]="0" [globalFilterFields]="['name','isStatus']">
+                  <ng-template pTemplate="caption">
+                    <div class="table-header">
+                      Search by Category Name
+                      <span class="p-input-icon-left">
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                          placeholder="Search" />
+                      </span>
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="header" let-columns>
+                    <tr class="primeTable">
+                      <th [pSortableColumn]="'name'">
+                        Category
+                        <p-sortIcon [field]="'name'" class="filter-icon" 
+                          ariaLabel="Activate to sort"
+                          ariaLabelDesc="Activate to sort in descending order"
+                          ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                      </th>
+                      <th [pSortableColumn]="'isstatus'">
+                        Status
+                        <p-sortIcon [field]="'isstatus'" class="filter-icon" 
+                          ariaLabel="Activate to sort"
+                          ariaLabelDesc="Activate to sort in descending order"
+                          ariaLabelAsc="Activate to sort in ascending order">
+                        </p-sortIcon>
+                      </th>
+                      <th style="width:15%; text-align:center;">Actions</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                      <td>{{rowData.name}}</td>
+                      <td>
+                        <div class="switchButton">
+                          <input type="checkbox" [(ngModel)]="rowData.isStatus" 
+                            class="form-check-input toggle" id="toggle{{rowData.id}}" 
+                            (click)="chk(rowData.id)">
+                          <label for="toggle{{rowData.id}}">
+                            <span class="on">Enable</span>
+                            <span class="off">Disable</span>
+                          </label>
+                        </div>
+                      </td>
+                      <td style="text-align:center;">
+                        <!-- <button type="button" (click)="editCategory(rowData.id)"> -->
+                          <i class="fa fa-pen-nib" style="color:#00BFFF; cursor:pointer;"></i>&nbsp;
+                        <!-- </button> -->
+                        <!-- <button type="button" (click)="getId(rowData.id)"> -->
+                          <i class="fa fa-trash-alt" style="color:#FF6347; cursor:pointer;"></i>
+                        <!-- </button> -->
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </nb-tab>
+              <nb-tab tabTitle="Sub Category">
+                <span>Content #2</span>
+              </nb-tab>
+            </nb-tabset>
+          </nb-card>
+
+
+
+
+
+
+          <div class="tab-pane fade" id="subCategory" role="tabpanel" aria-labelledby="subCategory-tab">
+            <p-table #dl [value]="subcategory" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+              [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+              [globalFilterFields]="['name','parentId.name','isStatus']">
+              <ng-template pTemplate="caption">
+                <div class="table-header">
+                  List of Sub-Category
+                  <span class="p-input-icon-left">
+                    <input pInputText type="text" (input)="dl.filterGlobal($event.target.value, 'contains')"
+                      placeholder="Search" />
+                    <!-- <i class="pi pi-search"></i> -->
+                  </span>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr class="primeTable">
+                  <th [pSortableColumn]="'name'">
+                    Category
+                    <p-sortIcon [field]="'name'" class="filter-icon" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th [pSortableColumn]="'name'">
+                    Sub-Category
+                    <p-sortIcon [field]="'name'" class="filter-icon" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th [pSortableColumn]="'isstatus'">
+                    Status
+                    <!-- <p-sortIcon [field]="'isstatus'" class="filter-icon"  ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon> -->
+                  </th>
+                  <th>Actions</th>
+
+
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowDatas let-columns="columns">
+                <tr>
+                  <td>{{rowDatas?.parentId?.name}}</td>
+                  <td>{{rowDatas.name}}</td>
+                  <td>
+                    <div class="switchButton">
+                      <input type="checkbox" [(ngModel)]="rowDatas.isStatus" class="form-check-input toggle"
+                        id="toggle{{rowDatas.id}}" (click)="chks(rowDatas.id)">
+                      <label for="toggle{{rowDatas.id}}">
+                        <span class="on">Enable</span>
+                        <span class="off">Disable</span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <button type="button" (click)="editSubCategory(rowDatas.id)"> <i class="fa fa-edit"></i></button>
+                    <button type="button" (click)="getIds(rowDatas.id)"><i class="fa fa-trash-o"></i></button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
